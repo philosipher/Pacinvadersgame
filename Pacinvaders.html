@@ -5,15 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pacinvaders Game</title>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background-color: black;
-        }
-        canvas {
-            display: block;
-            margin: 0 auto;
-        }
+        body { margin: 0; overflow: hidden; }
+        canvas { background: black; display: block; margin: 0 auto; }
     </style>
 </head>
 <body>
@@ -26,64 +19,59 @@
 
         // Game Variables
         let score = 0;
+        let health = 5;
         let level = 1;
-        let lives = 3;
-        let gameInterval;
-        const enemies = [];
-        const player = { x: canvas.width / 2, y: canvas.height - 50, width: 40, height: 20, dx: 5 };
+        let enemies = [];
+        let bullets = [];
+        let bosses = [];
 
-        // Load Sounds
+        // Upgrade variables
+        let weaponDamage = 1;
+        let fireRate = 1;
+        let speedBoost = 1;
+        let hullArmor = 1;
+        let shield = false;
+
+        // Game assets
         const sounds = {
-            shoot: new Audio('data:audio/wav;base64,...'), // Simulate Web Audio
-            explosion: new Audio('data:audio/wav;base64,...'),
+            shoot: new Audio('shoot.mp3'),
+            hit: new Audio('hit.mp3'),
+            levelUp: new Audio('levelup.mp3'),
+            gameOver: new Audio('gameover.mp3'),
         };
 
-        // Key States
-        const keys = {};
-        window.addEventListener('keydown', (e) => keys[e.code] = true);
-        window.addEventListener('keyup', (e) => keys[e.code] = false);
+        // Starfield background
+        function drawStars() {
+            for (let i = 0; i < 100; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                ctx.fillStyle = 'white';
+                ctx.fillRect(x, y, 2, 2);
+            }
+        }
 
         // Game Loop
         function gameLoop() {
-            update();
-            draw();
-        }
-
-        function update() {
-            if (keys['ArrowLeft'] && player.x > 0) player.x -= player.dx;
-            if (keys['ArrowRight'] && player.x < canvas.width - player.width) player.x += player.dx;
-            if (keys['Space']) shoot();
-
-            // Update enemies and detect collisions
-            // ... (Expanded enemy behavior and collision detection)
-        }
-
-        function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'white';
-            ctx.fillRect(player.x, player.y, player.width, player.height);
-
-            // Draw enemies
-            enemies.forEach(enemy => {
-                ctx.drawImage(enemy.image, enemy.x, enemy.y);
-            });
-
-            // Update score & lives on screen
-            ctx.fillText('Score: ' + score, 10, 20);
-            ctx.fillText('Lives: ' + lives, 10, 40);
+            drawStars();
+            // Update and draw logic here
+            requestAnimationFrame(gameLoop);
         }
 
-        function shoot() {
-            sounds.shoot.play();
-            // Logic for shooting bullets
-        }
+        // Controls
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'ArrowLeft') {
+                // Move left
+            } else if (e.code === 'ArrowRight') {
+                // Move right
+            } else if (e.code === 'Space') {
+                // Shoot bullet
+                sounds.shoot.play();
+            }
+        });
 
-        function startGame() {
-            gameInterval = setInterval(gameLoop, 1000 / 60);
-        }
-
-        // Initialize Game
-        startGame();
+        // Start the Game
+        gameLoop();
     </script>
 </body>
 </html>
