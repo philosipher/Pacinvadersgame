@@ -3,29 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pacinvaders Game</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+    <title>Enhanced Pacinvaders Game</title>
+    <style>
+        body { background-color: black; color: cyan; font-family: "Press Start 2P", cursive; }
+        canvas { border: 1px solid yellow; display: block; margin: auto; }
+        #score, #health, #credits { position: absolute; top: 10px; left: 10px; color: cyan; }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Pacinvaders: A Retro Arcade Experience</h1>
-    </header>
-    <main>
-        <section id="gameArea">
-            <h2>Enemies</h2>
-            <p>The enemies are now represented as space invaders style aliens, enhancing the retro feel of the game.</p>
-            <h2>Sound Effects</h2>
-            <p>We've improved the sound effects! The screaming has been removed and replaced with retro arcade sounds for a more authentic experience.</p>
-            <h2>Level Progression</h2>
-            <p>Experience a revamped level progression system that gradually increases in difficulty, providing a challenging experience as players advance through the game.</p>
-            <h2>Skill Tree & Ability Upgrades</h2>
-            <p>Players can now customize their gameplay through a skill tree that allows for unique ability upgrades, enhancing the overall gaming experience.</p>
-            <h2>Boss Designs</h2>
-            <p>We have introduced better boss designs to increase excitement during boss fights, making them more memorable encounters.</p>
-            <h2>Overall Game Polish</h2>
-            <p>The game has undergone significant polishing to improve visuals, gameplay, and player engagement.</p>
-        </section>
-    </main>
+    <div id="score">Score: 0</div>
+    <div id="health">Health: ♥♥♥♥♥</div>
+    <div id="credits">Credits: 0</div>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        let score = 0;
+        let health = 5;
+        let credits = 0;
+
+        // Enemy Graphics
+        const enemyTypes = ["octopus", "fighter", "saucer", "boss"];
+        const enemies = [];
+
+        function createEnemy(type) {
+            // Create an enemy object with properties and methods for animations
+        }
+
+        function drawEnemies() {
+            // Loop through enemies and draw them on the canvas
+        }
+
+        // Sound Setup
+        const shootSound = new Audio();
+        // Synthesize shoot beep with Web Audio API
+
+        // Skill Tree System
+        const upgrades = {
+            weaponDamage: 0,
+            fireRate: 0,
+            speed: 0,
+            hullArmor: 0,
+            shieldSystem: 0
+        };
+
+        function purchaseUpgrade(upgrade) {
+            // Logic for purchasing upgrades with credits
+        }
+
+        // Game Logic
+        function gameLoop() {
+            // Main game loop
+            drawEnemies();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // User Controls
+        window.addEventListener("keydown", (event) => {
+            // Set up player movement and shooting
+        });
+
+        // Start the game
+        createEnemy("octopus"); // Example of an enemy creation
+        gameLoop();
+    </script>
 </body>
 </html>
