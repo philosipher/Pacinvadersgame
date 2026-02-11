@@ -3,70 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Pacinvaders Game</title>
+    <title>Pacinvaders Game</title>
     <style>
-        body { background-color: black; color: cyan; font-family: "Press Start 2P", cursive; }
-        canvas { border: 1px solid yellow; display: block; margin: auto; }
-        #score, #health, #credits { position: absolute; top: 10px; left: 10px; color: cyan; }
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
-    <div id="score">Score: 0</div>
-    <div id="health">Health: ♥♥♥♥♥</div>
-    <div id="credits">Credits: 0</div>
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
-
+    <canvas id="gameCanvas"></canvas>
     <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Game Variables
         let score = 0;
-        let health = 5;
-        let credits = 0;
-
-        // Enemy Graphics
-        const enemyTypes = ["octopus", "fighter", "saucer", "boss"];
+        let level = 1;
+        let lives = 3;
+        let gameInterval;
         const enemies = [];
+        const player = { x: canvas.width / 2, y: canvas.height - 50, width: 40, height: 20, dx: 5 };
 
-        function createEnemy(type) {
-            // Create an enemy object with properties and methods for animations
-        }
-
-        function drawEnemies() {
-            // Loop through enemies and draw them on the canvas
-        }
-
-        // Sound Setup
-        const shootSound = new Audio();
-        // Synthesize shoot beep with Web Audio API
-
-        // Skill Tree System
-        const upgrades = {
-            weaponDamage: 0,
-            fireRate: 0,
-            speed: 0,
-            hullArmor: 0,
-            shieldSystem: 0
+        // Load Sounds
+        const sounds = {
+            shoot: new Audio('data:audio/wav;base64,...'), // Simulate Web Audio
+            explosion: new Audio('data:audio/wav;base64,...'),
         };
 
-        function purchaseUpgrade(upgrade) {
-            // Logic for purchasing upgrades with credits
-        }
+        // Key States
+        const keys = {};
+        window.addEventListener('keydown', (e) => keys[e.code] = true);
+        window.addEventListener('keyup', (e) => keys[e.code] = false);
 
-        // Game Logic
+        // Game Loop
         function gameLoop() {
-            // Main game loop
-            drawEnemies();
-            requestAnimationFrame(gameLoop);
+            update();
+            draw();
         }
 
-        // User Controls
-        window.addEventListener("keydown", (event) => {
-            // Set up player movement and shooting
-        });
+        function update() {
+            if (keys['ArrowLeft'] && player.x > 0) player.x -= player.dx;
+            if (keys['ArrowRight'] && player.x < canvas.width - player.width) player.x += player.dx;
+            if (keys['Space']) shoot();
 
-        // Start the game
-        createEnemy("octopus"); // Example of an enemy creation
-        gameLoop();
+            // Update enemies and detect collisions
+            // ... (Expanded enemy behavior and collision detection)
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'white';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+
+            // Draw enemies
+            enemies.forEach(enemy => {
+                ctx.drawImage(enemy.image, enemy.x, enemy.y);
+            });
+
+            // Update score & lives on screen
+            ctx.fillText('Score: ' + score, 10, 20);
+            ctx.fillText('Lives: ' + lives, 10, 40);
+        }
+
+        function shoot() {
+            sounds.shoot.play();
+            // Logic for shooting bullets
+        }
+
+        function startGame() {
+            gameInterval = setInterval(gameLoop, 1000 / 60);
+        }
+
+        // Initialize Game
+        startGame();
     </script>
 </body>
 </html>
