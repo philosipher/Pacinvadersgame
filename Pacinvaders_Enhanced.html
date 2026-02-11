@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacinvaders Enhanced</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; margin: auto; background: black; }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <script>
+        // SoundManager class 
+        class SoundManager {
+            constructor() {
+                this.context = new (window.AudioContext || window.webkitAudioContext)();
+                this.sounds = {};
+            }
+
+            loadSound(name, url) {
+                return fetch(url) 
+                    .then(response => response.arrayBuffer()) 
+                    .then(data => this.context.decodeAudioData(data)) 
+                    .then(buffer => this.sounds[name] = buffer);
+            }
+
+            play(name) {
+                const source = this.context.createBufferSource();
+                source.buffer = this.sounds[name];
+                source.connect(this.context.destination);
+                source.start(0);
+            }
+        }
+
+        // Enemy class 
+        class Enemy {
+            constructor(type) {
+                this.type = type;
+                this.health = type === 'boss' ? 100 : 30;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * 100;
+                this.width = 50;
+                this.height = 50;
+            }
+
+            draw() {
+                // Draw Enemy based on type
+                // Add graphics effects based on type
+            }
+
+            update() {
+                // Update enemy behavior
+            }
+        }
+
+        // Player class
+        class Player {
+            constructor() {
+                this.x = canvas.width / 2;
+                this.y = canvas.height - 60;
+                this.health = 100;
+            }
+
+            draw() {
+                // Draw player ship with shield effects
+            }
+
+            upgradeSkill() {
+                // Upgrade player skills 
+            }
+        }
+
+        // Control and game loop
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let player = new Player();
+        let enemies = [];
+        let soundManager = new SoundManager();
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            player.draw();
+            enemies.forEach(enemy => enemy.draw());
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        soundManager.loadSound('shoot', 'path/to/shoot.wav').then(() => {
+            console.log('Loaded sound');
+            gameLoop();
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'ArrowRight') player.x += 5;
+            if (e.code === 'ArrowLeft') player.x -= 5;
+            if (e.code === 'Space') soundManager.play('shoot');
+        });
+    </script>
+</body>
+</html>
