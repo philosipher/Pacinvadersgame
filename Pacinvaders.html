@@ -3,37 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pacinvaders Game</title>
+    <title>Pacinvaders Enhanced - Space Arcade Game</title>
     <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { background: black; display: block; margin: 0 auto; }
-    </style>
-</head>
-<body>
-    <canvas id="gameCanvas"></canvas>
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        // Game Variables
-        let score = 0;
-        let health = 5;
-        let level = 1;
-        let enemies = [];
-        let bullets = [];
-        let bosses = [];
-
-        // Upgrade variables
-        let weaponDamage = 1;
-        let fireRate = 1;
-        let speedBoost = 1;
-        let hullArmor = 1;
-        let shield = false;
-
-        // Game assets
-        const sounds = {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: #000000; 
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+        }
+        canvas { 
+            display: block; 
+            background: #000000;
+            border: 3px solid #00FFFF;
+            box-shadow: 0 0 20px #00FFFF;
+        }
+        #gameContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #000000;
+        }
+        #hud {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            color: #FFFF00;
+            font-size: 16px;
+            text-shadow: 0 0 5px #FFFF00;
+            z-index: 100;
+        }
+        #hudRight {
+            position: fixed;
+            top: 10px;
             shoot: new Audio('shoot.mp3'),
             hit: new Audio('hit.mp3'),
             levelUp: new Audio('levelup.mp3'),
